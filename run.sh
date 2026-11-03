@@ -73,7 +73,7 @@ while true; do
         2) run_lab Laborator2_PSSC ;;
         3) run_lab Laborator3_PSSC ;;
         4) start_database "$LAB4_COMPOSE" sqlserver-init && run_lab Laborator4_PSSC ;;
-        5) start_database "$LAB5_COMPOSE" sqlserver-update && run_lab Laborator5_PSSC ;;
+        5) start_database "$LAB5_COMPOSE" sqlserver-update && run_lab Laborator5_PSSC/Laborator5_PSSC.ConsoleApp ;;
         t) dotnet test PSSC.sln ;;
         b) dotnet build PSSC.sln ;;
         s) docker compose -f "$LAB5_COMPOSE" down ;;

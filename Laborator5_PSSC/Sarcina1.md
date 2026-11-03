@@ -60,11 +60,11 @@ Scenarii rulate in consola:
 | Element | Exemple | Laborator5_PSSC |
 |---|---|---|
 | Porturi in domeniu + adaptoare EF | da | da (`IProductsRepository`, `IOrdersRepository`) |
-| I/O doar la margini (citire -> pur -> scriere) | in workflow | in `PlaceOrderService`, workflow-ul din Lab 3 ramane pur |
+| I/O doar la margini (citire -> pur -> scriere) | `ExecuteAsync` + `Publish` pura | `ExecuteAsync` + `Place` pura |
 | Upsert dupa cheia naturala | matricol | codul clientului |
 | Model de citire separat | `IGradesQuery` | `IShopQueries` |
-| Proiecte separate pe straturi | da | nu (foldere intr-un singur proiect) |
-| Dependency injection / `Host` | da | nu (obiecte create in `Program.cs`) |
-| `CancellationToken`, `TimeProvider` | da | nu |
-| Central Package Management, `Directory.Build.props` | da | nu |
+| Proiecte separate pe straturi | da | da (`Functional`, `Domain`, `Data`, `ConsoleApp`, `Domain.Tests`) |
+| Dependency injection / `Host` | da | da (`AddShoppingCartData`, un scope per actiune) |
+| `CancellationToken`, `TimeProvider` | da | da (plus Ctrl+C pentru anulare) |
+| Central Package Management, `Directory.Build.props` | da | da (doar pentru Lab 5) |
 | Tranzactie si verificare atomica a stocului la salvare | nu (fereastra netranzactionala acceptata in ADR) | da |
