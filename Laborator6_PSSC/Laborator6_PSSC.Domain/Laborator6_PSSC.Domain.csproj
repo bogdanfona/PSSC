@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Place order domain: value objects, operations, workflow and the ports it needs. No EF Core here.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator6_PSSC.Functional\Laborator6_PSSC.Functional.csproj" />
+  </ItemGroup>
+
+</Project>

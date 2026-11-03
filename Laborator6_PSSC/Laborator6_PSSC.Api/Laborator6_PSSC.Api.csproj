@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!-- Same id as Labs 4 and 5: all of them use the same database and connection string. -->
+    <UserSecretsId>24a8c1a9-7648-462c-a212-96fb6682895a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator6_PSSC.Data\Laborator6_PSSC.Data.csproj" />
+    <ProjectReference Include="..\Laborator6_PSSC.Domain\Laborator6_PSSC.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

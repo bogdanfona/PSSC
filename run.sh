@@ -10,7 +10,9 @@ export PATH="$PATH:/usr/local/bin:$HOME/.docker/bin:/Applications/Docker.app/Con
 LAB4_COMPOSE="Laborator4_PSSC/compose.yaml"
 # Lab 5 uses the same SQL Server and database; its compose file adds the Stock column and demo products.
 LAB5_COMPOSE="Laborator5_PSSC/compose.yaml"
-# Lab 4's compose file does not know Lab 5's extra container; no need to warn about it.
+# Lab 6 adds the cart status columns on top of Lab 5.
+LAB6_COMPOSE="Laborator6_PSSC/compose.yaml"
+# The earlier labs' compose files do not know the later labs' extra containers; no need to warn about them.
 export COMPOSE_IGNORE_ORPHANS=True
 
 # $1 = compose file, $2 = the setup container to wait for.
@@ -61,9 +63,10 @@ while true; do
     echo "3. Laborator 3"
     echo "4. Laborator 4 (porneste si baza de date)"
     echo "5. Laborator 5 (porneste si baza de date)"
+    echo "6. Laborator 6 - API Web (porneste si baza de date, deschide Swagger)"
     echo "t. Ruleaza testele"
     echo "b. Compileaza tot"
-    echo "s. Opreste baza de date (Lab 4 si 5)"
+    echo "s. Opreste baza de date (Lab 4-6)"
     echo "0. Iesire"
     printf "Optiune: "
     read -r option || break
@@ -74,9 +77,10 @@ while true; do
         3) run_lab Laborator3_PSSC ;;
         4) start_database "$LAB4_COMPOSE" sqlserver-init && run_lab Laborator4_PSSC ;;
         5) start_database "$LAB5_COMPOSE" sqlserver-update && run_lab Laborator5_PSSC/Laborator5_PSSC.ConsoleApp ;;
+        6) start_database "$LAB6_COMPOSE" sqlserver-update-lab6 && run_lab Laborator6_PSSC/Laborator6_PSSC.Api ;;
         t) dotnet test PSSC.sln ;;
         b) dotnet build PSSC.sln ;;
-        s) docker compose -f "$LAB5_COMPOSE" down ;;
+        s) docker compose -f "$LAB6_COMPOSE" down ;;
         0) break ;;
         *) echo "Optiune invalida." ;;
     esac

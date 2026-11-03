@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Minimal functional core (Result) used by the domain.</Description>
+  </PropertyGroup>
+
+</Project>

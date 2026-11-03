@@ -1,0 +1,21 @@
+# Same project name as Labs 4 and 5, so it reuses the same SQL Server container and data volume.
+name: laborator4_pssc
+
+include:
+  - ../Laborator5_PSSC/compose.yaml
+
+services:
+  # Runs SQL/update-db.sql after Lab 5's update-db.sql, then exits.
+  sqlserver-update-lab6:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    depends_on:
+      sqlserver-update:
+        condition: service_completed_successfully
+    # Same password file as Lab 4; read by the shell at run time.
+    env_file: ../Laborator4_PSSC/.env
+    volumes:
+      - ./SQL:/sql:ro
+    # Needs a shell so $MSSQL_SA_PASSWORD is expanded; a plain-string entrypoint is not run through one.
+    entrypoint: ["/bin/sh", "-c", "/opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -b -i /sql/update-db.sql"]
+    restart: "no"
