@@ -13,6 +13,8 @@ citire din baza  ->  workflow pur  ->  scriere in baza
 2. **Workflow-ul** (validare -> produse existente -> stoc -> adresa -> pret) este acelasi ca in Laboratorul 3. Functiile `CheckProductExists`, `GetStock` si `GetProductPrice` sunt acum metodele `ProductCatalog`, deci folosesc date din baza, dar workflow-ul ramane pur (nu face I/O).
 3. **Dupa workflow**, daca comanda a fost plasata, `OrdersRepository` o salveaza intr-o singura tranzactie.
 
+Analiza solutiei din `Exemple` (Sarcina 1) este in [Sarcina1.md](Sarcina1.md).
+
 ## Structura
 
 | Fisier | Rol |
