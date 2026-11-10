@@ -10,7 +10,7 @@ export PATH="$PATH:/usr/local/bin:$HOME/.docker/bin:/Applications/Docker.app/Con
 LAB4_COMPOSE="Laborator4_PSSC/compose.yaml"
 # Lab 5 uses the same SQL Server and database; its compose file adds the Stock column and demo products.
 LAB5_COMPOSE="Laborator5_PSSC/compose.yaml"
-# Lab 6 adds the cart status columns on top of Lab 5.
+# Lab 6 adds the cart status columns on top of Lab 5; Lab 7 uses the same database.
 LAB6_COMPOSE="Laborator6_PSSC/compose.yaml"
 # The earlier labs' compose files do not know the later labs' extra containers; no need to warn about them.
 export COMPOSE_IGNORE_ORPHANS=True
@@ -55,6 +55,21 @@ run_lab() {
     dotnet run --project "$1"
 }
 
+# Lab 7: the delivery API runs in the background, the cart API in the foreground; both stop together.
+run_lab7() {
+    local delivery_log="Laborator7_PSSC/delivery.log"
+    echo
+    echo "Pornesc API-ul de livrari (https://localhost:7297), log in $delivery_log ..."
+    dotnet run --project Laborator7_PSSC/Laborator7_PSSC.Delivery >"$delivery_log" 2>&1 &
+    for _ in $(seq 1 60); do
+        curl -sk -o /dev/null https://localhost:7297/deliveries && break
+        sleep 1
+    done
+    dotnet run --project Laborator7_PSSC/Laborator7_PSSC.Api
+    pkill -f "Laborator7_PSSC.Delivery" 2>/dev/null
+    echo "API-ul de livrari a fost oprit."
+}
+
 while true; do
     echo
     echo "===== LABORATOARE PSSC ====="
@@ -64,9 +79,10 @@ while true; do
     echo "4. Laborator 4 (porneste si baza de date)"
     echo "5. Laborator 5 (porneste si baza de date)"
     echo "6. Laborator 6 - API Web (porneste si baza de date, deschide Swagger)"
+    echo "7. Laborator 7 - API cos + API livrari (porneste si baza de date)"
     echo "t. Ruleaza testele"
     echo "b. Compileaza tot"
-    echo "s. Opreste baza de date (Lab 4-6)"
+    echo "s. Opreste baza de date (Lab 4-7)"
     echo "0. Iesire"
     printf "Optiune: "
     read -r option || break
@@ -78,6 +94,7 @@ while true; do
         4) start_database "$LAB4_COMPOSE" sqlserver-init && run_lab Laborator4_PSSC ;;
         5) start_database "$LAB5_COMPOSE" sqlserver-update && run_lab Laborator5_PSSC/Laborator5_PSSC.ConsoleApp ;;
         6) start_database "$LAB6_COMPOSE" sqlserver-update-lab6 && run_lab Laborator6_PSSC/Laborator6_PSSC.Api ;;
+        7) start_database "$LAB6_COMPOSE" sqlserver-update-lab6 && run_lab7 ;;
         t) dotnet test PSSC.sln ;;
         b) dotnet build PSSC.sln ;;
         s) docker compose -f "$LAB6_COMPOSE" down ;;

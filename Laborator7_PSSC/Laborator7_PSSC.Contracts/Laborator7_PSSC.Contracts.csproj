@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Contracts shared by the cart API and the delivery API: plain serializable records, no logic, no references.</Description>
+  </PropertyGroup>
+
+</Project>
