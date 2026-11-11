@@ -12,6 +12,8 @@ LAB4_COMPOSE="Laborator4_PSSC/compose.yaml"
 LAB5_COMPOSE="Laborator5_PSSC/compose.yaml"
 # Lab 6 adds the cart status columns on top of Lab 5; Lab 7 uses the same database.
 LAB6_COMPOSE="Laborator6_PSSC/compose.yaml"
+# Lab 8 adds the invoicing tables and the Azure Service Bus emulator.
+LAB8_COMPOSE="Laborator8_PSSC/compose.yaml"
 # The earlier labs' compose files do not know the later labs' extra containers; no need to warn about them.
 export COMPOSE_IGNORE_ORPHANS=True
 
@@ -70,6 +72,31 @@ run_lab7() {
     echo "API-ul de livrari a fost oprit."
 }
 
+# Lab 8: the delivery API and both workers run in the background (logs in Laborator8_PSSC/*.log),
+# the cart API in the foreground; everything stops together.
+run_lab8() {
+    echo "Astept emulatorul Service Bus..."
+    for _ in $(seq 1 60); do
+        curl -s http://localhost:5300/health 2>/dev/null | grep -q '"healthy"' && break
+        sleep 3
+    done
+    if ! curl -s http://localhost:5300/health 2>/dev/null | grep -q '"healthy"'; then
+        echo "Emulatorul nu a pornit. Detalii: docker compose -f $LAB8_COMPOSE logs servicebus-emulator"
+        return 1
+    fi
+
+    echo
+    echo "Pornesc in fundal: API livrari, worker facturare, worker livrare (log-uri in Laborator8_PSSC/*.log)..."
+    dotnet run --project Laborator8_PSSC/Laborator8_PSSC.Delivery >Laborator8_PSSC/delivery.log 2>&1 &
+    dotnet run --project Laborator8_PSSC/Laborator8_PSSC.Invoicing.EventProcessor >Laborator8_PSSC/invoicing.log 2>&1 &
+    dotnet run --project Laborator8_PSSC/Laborator8_PSSC.Shipping.EventProcessor >Laborator8_PSSC/shipping.log 2>&1 &
+    dotnet run --project Laborator8_PSSC/Laborator8_PSSC.Api
+    pkill -f "Laborator8_PSSC.Delivery" 2>/dev/null
+    pkill -f "Laborator8_PSSC.Invoicing.EventProcessor" 2>/dev/null
+    pkill -f "Laborator8_PSSC.Shipping.EventProcessor" 2>/dev/null
+    echo "API-ul de livrari si worker-ii au fost opriti."
+}
+
 while true; do
     echo
     echo "===== LABORATOARE PSSC ====="
@@ -80,9 +107,10 @@ while true; do
     echo "5. Laborator 5 (porneste si baza de date)"
     echo "6. Laborator 6 - API Web (porneste si baza de date, deschide Swagger)"
     echo "7. Laborator 7 - API cos + API livrari (porneste si baza de date)"
+    echo "8. Laborator 8 - evenimente prin Service Bus (baza, emulator, API, worker-i)"
     echo "t. Ruleaza testele"
     echo "b. Compileaza tot"
-    echo "s. Opreste baza de date (Lab 4-7)"
+    echo "s. Opreste baza de date si emulatorul (Lab 4-8)"
     echo "0. Iesire"
     printf "Optiune: "
     read -r option || break
@@ -95,9 +123,10 @@ while true; do
         5) start_database "$LAB5_COMPOSE" sqlserver-update && run_lab Laborator5_PSSC/Laborator5_PSSC.ConsoleApp ;;
         6) start_database "$LAB6_COMPOSE" sqlserver-update-lab6 && run_lab Laborator6_PSSC/Laborator6_PSSC.Api ;;
         7) start_database "$LAB6_COMPOSE" sqlserver-update-lab6 && run_lab7 ;;
+        8) start_database "$LAB8_COMPOSE" sqlserver-update-lab8 && run_lab8 ;;
         t) dotnet test PSSC.sln ;;
         b) dotnet build PSSC.sln ;;
-        s) docker compose -f "$LAB6_COMPOSE" down ;;
+        s) docker compose -f "$LAB8_COMPOSE" down ;;
         0) break ;;
         *) echo "Optiune invalida." ;;
     esac

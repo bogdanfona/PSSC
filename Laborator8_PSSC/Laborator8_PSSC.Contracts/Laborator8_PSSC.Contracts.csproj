@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Contracts shared between the services: HTTP DTOs and integration events. Plain serializable records, no logic.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator8_PSSC.Events\Laborator8_PSSC.Events.csproj" />
+  </ItemGroup>
+
+</Project>

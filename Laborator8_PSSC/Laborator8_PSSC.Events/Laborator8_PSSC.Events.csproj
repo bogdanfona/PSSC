@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Transport-independent messaging abstractions: no Azure Service Bus or CloudEvents dependency.</Description>
+    <!-- CA1711: IEventHandler is the name the course uses; it handles integration events, not .NET events. -->
+    <NoWarn>$(NoWarn);CA1711</NoWarn>
+  </PropertyGroup>
+
+</Project>

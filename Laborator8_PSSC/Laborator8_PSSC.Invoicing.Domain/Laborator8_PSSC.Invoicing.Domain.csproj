@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Invoicing context: the generate invoice workflow, its states, operations and the port it needs. No Service Bus, no EF Core.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator8_PSSC.Functional\Laborator8_PSSC.Functional.csproj" />
+  </ItemGroup>
+
+</Project>

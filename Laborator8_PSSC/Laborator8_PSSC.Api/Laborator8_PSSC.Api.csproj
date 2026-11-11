@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <!-- Same id as Labs 4-7: all of them use the same database and connection string. -->
+    <UserSecretsId>24a8c1a9-7648-462c-a212-96fb6682895a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+    <PackageReference Include="Microsoft.Extensions.Azure" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator8_PSSC.Contracts\Laborator8_PSSC.Contracts.csproj" />
+    <ProjectReference Include="..\Laborator8_PSSC.Data\Laborator8_PSSC.Data.csproj" />
+    <ProjectReference Include="..\Laborator8_PSSC.Domain\Laborator8_PSSC.Domain.csproj" />
+    <ProjectReference Include="..\Laborator8_PSSC.Events.ServiceBus\Laborator8_PSSC.Events.ServiceBus.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>Invoicing worker: listens to the order-placed topic (invoicing subscription) and generates the invoice.</Description>
+    <!-- Same id as Labs 4-7: the invoices live in the same SQL Server database, in their own schema. -->
+    <UserSecretsId>24a8c1a9-7648-462c-a212-96fb6682895a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Azure" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator8_PSSC.Contracts\Laborator8_PSSC.Contracts.csproj" />
+    <ProjectReference Include="..\Laborator8_PSSC.Events.ServiceBus\Laborator8_PSSC.Events.ServiceBus.csproj" />
+    <ProjectReference Include="..\Laborator8_PSSC.Invoicing.Domain\Laborator8_PSSC.Invoicing.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Microsoft.NET.Sdk (unlike Microsoft.NET.Sdk.Web) does not copy appsettings*.json on its own. -->
+    <Content Include="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

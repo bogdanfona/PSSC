@@ -1,0 +1,37 @@
+# Same project name as Labs 4-7, so it reuses the same SQL Server container and data volume.
+name: laborator4_pssc
+
+include:
+  - ../Laborator6_PSSC/compose.yaml
+
+services:
+  # Runs SQL/update-db.sql (invoicing tables) after Lab 6's script, then exits.
+  sqlserver-update-lab8:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    depends_on:
+      sqlserver-update-lab6:
+        condition: service_completed_successfully
+    env_file: ../Laborator4_PSSC/.env
+    volumes:
+      - ./SQL:/sql:ro
+    entrypoint: ["/bin/sh", "-c", "/opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -b -i /sql/update-db.sql"]
+    restart: "no"
+
+  # Azure Service Bus emulator with the queue and topic from infra/servicebus/Config.json.
+  # It keeps its own metadata in the same SQL Server. Limits: AMQP over TCP only, nothing persists across restarts,
+  # 1 hour maximum TTL. Details: https://learn.microsoft.com/azure/service-bus-messaging/overview-emulator
+  servicebus-emulator:
+    image: mcr.microsoft.com/azure-messaging/servicebus-emulator:latest
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    env_file: ../Laborator4_PSSC/.env
+    environment:
+      SQL_SERVER: sqlserver
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./infra/servicebus/Config.json:/ServiceBus_Emulator/ConfigFiles/Config.json:ro
+    ports:
+      - "5672:5672" # AMQP
+      - "5300:5300" # health

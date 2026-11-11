@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>Task 2: a sender and a receiver over the orders queue (1-to-1) and the order-placed topic (1-to-many), with the plain Service Bus SDK.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" />
+  </ItemGroup>
+
+</Project>
