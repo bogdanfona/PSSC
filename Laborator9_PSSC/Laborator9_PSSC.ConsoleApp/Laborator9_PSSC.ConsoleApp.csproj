@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>Console demo of the reserve space workflow with in-memory dependencies.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator9_PSSC.Domain\Laborator9_PSSC.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

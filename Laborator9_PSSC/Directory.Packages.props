@@ -1,0 +1,13 @@
+<Project>
+  <!-- Central Package Management: versions live here, .csproj files list packages without Version. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Tests: xunit.v3, run through VSTest so `dotnet test PSSC.sln` keeps working with the other labs' tests. -->
+    <PackageVersion Include="xunit.v3" Version="4.0.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Result and Option with railway-oriented combinators (Map, Bind, MapError, Ensure, Combine), as in the course's Lab 3.</Description>
+  </PropertyGroup>
+
+</Project>

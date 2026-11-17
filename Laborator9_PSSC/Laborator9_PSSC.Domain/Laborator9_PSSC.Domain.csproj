@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Study space reservation domain: value objects, states, operations and the reserve space workflow. No infrastructure.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator9_PSSC.Functional\Laborator9_PSSC.Functional.csproj" />
+  </ItemGroup>
+
+</Project>

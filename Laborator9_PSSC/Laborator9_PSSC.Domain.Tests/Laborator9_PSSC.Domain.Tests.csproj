@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- xunit.v3 4.x defaults to Microsoft Testing Platform; the rest of PSSC.sln runs on VSTest, so this project does too
+         (through xunit.runner.visualstudio), and `dotnet test PSSC.sln` runs every lab's tests in one go. -->
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Laborator9_PSSC.Domain\Laborator9_PSSC.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
